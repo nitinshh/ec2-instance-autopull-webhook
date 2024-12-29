@@ -11,8 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 // Webhook endpoint
 app.post("/gitWebhook", (req, res) => {
   try {
-    const repoPath = "/path/to/your/local/repository"; // Update this to your local repository path
-
+    const repoPath = "https://github.com/nitinshh/ec2-instance-autopull-webhook"; // Update this to your repository path
     // Log payload for debugging
     console.log("Received webhook payload:", req.body);
 
