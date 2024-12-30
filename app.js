@@ -41,7 +41,7 @@ app.post("/gitWebhook", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  console.log("This is test!!!!!!!!!!!!!!!!!!");
+  console.log("This is test!!!!!!");
   res.send("This is test");
 });
 
