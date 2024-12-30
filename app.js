@@ -11,13 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 // Webhook endpoint
 app.post("/gitWebhook", (req, res) => {
   try {
-    const repoPath = "/home/ubuntu/ec2-instance-autopull-webhook"; // Update this to your repository path
-    // Log payload for debugging
-    console.log("Received webhook payload:", req.body);
+    const repoPath = "/home/ubuntu/ec2-instance-autopull-webhook"; // Path to your repository
+    // Log the entire payload for debugging
+    console.log("Received webhook payload:", JSON.stringify(req.body, null, 2));
 
-    // Ensure it's a push event to the master branch
+    // Check the ref field
     if (req.body.ref && req.body.ref === "refs/heads/master") {
-      console.log("Push event detected. Pulling latest changes...");
+      console.log("Push event detected on master branch. Pulling latest changes...");
 
       // Execute the git pull command
       exec(`cd ${repoPath} && git pull`, (error, stdout, stderr) => {
@@ -31,7 +31,7 @@ app.post("/gitWebhook", (req, res) => {
         res.status(200).send("Git pull executed successfully");
       });
     } else {
-      console.log("Non-master branch push or invalid event. Ignoring...");
+      console.log(`Non-master branch push or invalid event. Received ref: ${req.body.ref}`);
       res.status(200).send("No action taken");
     }
   } catch (error) {
